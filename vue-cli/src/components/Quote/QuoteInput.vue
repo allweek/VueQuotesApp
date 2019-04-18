@@ -1,20 +1,31 @@
 <template>
     <div class="quote-input">
         <h4>Quote</h4>
-        <textarea placeholder="your text" @input="quoteText = $event.target.value"></textarea>
+        <textarea placeholder="your text" @input="quoteText = $event.target.value" id="quote-text"></textarea>
         <button class="quote-btn" @click="addQuote">Add Quote</button>
     </div>
 </template>
 
 <script>
-    import { eventBus } from '../main.js';
+    import { eventBus } from './../../main';
     export default {
-        props: ['quoteText'],
+        data: function () {
+            return {
+                quoteText: ''
+            }
+        },
         methods: {
             addQuote() {
-//                eventBus.changeAge(this.)
-                eventBus.$emit('quoteTextAdded', this.quoteText);
+                if (this.quoteText.length) {
+                    eventBus.addQuote(this.quoteText);
+                }
             }
+        },
+        created() {
+            eventBus.$on('clearInput', () => {
+               document.getElementById('quote-text').value = '';
+               this.quoteText = '';
+            });
         }
     }
 </script>
@@ -39,6 +50,7 @@
         padding: 10px;
         font-size: 14px;
         margin-bottom: 10px;
+        resize: none;
     }
     .quote-btn {
         display: inline-block;

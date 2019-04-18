@@ -2,14 +2,35 @@
     <div class="quote-indicator">
         <h2>Quotes Added</h2>
         <div class="quote-line">
-            <div class="quote-filled">1/10</div>
+            <div class="quote-filled" :style="{width: quotesLength*10 + '%'}" v-if="quotesLength">{{ this.quotesLength }} / 10 </div>
         </div>
     </div>
 </template>
 
 <script>
+    import { eventBus } from './../../main';
     export default {
+        prop: {
+            quotes2: Array
+        },
+        data: function() {
+            return {
+                quotesLength: 0
+            }
+        },
+        methods: {
+            addQuote() {
+                eventBus.addQuote(this.quoteText);
+            }
+        },
+        computed: {
 
+        },
+        created() {
+            eventBus.$on('calcIndicator', (quote) => {
+                this.quotesLength = quote
+            });
+        }
     }
 </script>
 
@@ -25,10 +46,10 @@
         border-radius: 2px;
         border: 1px solid lightgrey;
         padding: 3px;
+        height: 18px;
         margin-bottom: 20px;
     }
     .quote-filled {
-        width: 10%;
         text-align: center;
         background: dodgerblue;
         color: #fff;

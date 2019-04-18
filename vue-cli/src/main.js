@@ -3,13 +3,19 @@ import App from './App.vue'
 
 export const eventBus = new Vue({
     methods: {
-        // changeAge(age) {
-        //     this.$emit('ageWasEdited', age);
-        // }
+        addQuote(newQuote) {
+            this.$emit('quoteAdded', newQuote);
+        },
+        clearInput() {
+            this.$emit('clearInput', true);
+        },
+        calcIndicator(length) {
+            this.$emit('calcIndicator', length);
+        }
     }
 });
 
 new Vue({
         el: '#app',
         render: h => h(App)
-})
+});
