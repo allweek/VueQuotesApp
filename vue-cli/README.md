@@ -1,4 +1,6 @@
 # quotes-app
+App where you can add some text Quotes, Delete it and see the indicator(max 10 quotes).
+Try to practise Event Bus, props and watch.
 
 > A Vue.js project
 
