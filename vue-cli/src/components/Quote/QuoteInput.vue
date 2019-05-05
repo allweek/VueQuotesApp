@@ -1,7 +1,7 @@
 <template>
     <div class="quote-input">
         <h4>Quote</h4>
-        <textarea placeholder="your text" @input="quoteText = $event.target.value" id="quote-text"></textarea>
+        <textarea placeholder="your text" v-model="quoteText"></textarea>
         <button class="quote-btn" @click="addQuote">Add Quote</button>
     </div>
 </template>
@@ -18,14 +18,9 @@
             addQuote() {
                 if (this.quoteText.length) {
                     eventBus.addQuote(this.quoteText);
+                    this.quoteText = '';
                 }
             }
-        },
-        created() {
-            eventBus.$on('clearInput', () => {
-               document.getElementById('quote-text').value = '';
-               this.quoteText = '';
-            });
         }
     }
 </script>

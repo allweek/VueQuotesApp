@@ -1,8 +1,10 @@
 <template>
     <div>
-        <app-indicator></app-indicator>
+        <app-indicator :quotesLength="quotes.length" :maxLength="maxLength"></app-indicator>
         <app-quote-input></app-quote-input>
-        <app-quotes :quotes="this.quotes"></app-quotes>
+        <ul class="quotes">
+            <app-quote v-for="(quote, i) in quotes" :key="i"  @click.native="removeQuote(i)">{{ quote }}</app-quote>
+        </ul>
         <app-footer></app-footer>
     </div>
 </template>
@@ -19,39 +21,42 @@
         data: function () {
           return {
             quotes: [],
-            quoteText: ''
+            quoteText: '',
+            maxLength: 10
           };
         },
         methods: {
           addQuote: function(quote) {
             this.quotes.push(quote)
-          }
+          },
+            removeQuote: function (i) {
+                this.quotes.splice(i, 1);
+            }
         },
         created() {
             eventBus.$on('quoteAdded', (quote) => {
-                if (this.quotes.length < 10) {
+                if (this.quotes.length < this.maxLength) {
                     this.quoteText = quote;
                     this.addQuote(this.quoteText);
-                    eventBus.clearInput();
                 } else {
                     alert('Max quotes limit. Please, delete some quotes')
                 }
             });
         },
-        watch: {
-            quotes: {
-                handler: function (val, oldVal) {
-                    var newLength = val.length;
-                    eventBus.calcIndicator(newLength);
-                },
-                deep: true
-            }
-        },
         components: {
             'app-indicator': QuoteIndicator,
-            'app-quotes': QuoteItem,
+            'app-quote': QuoteItem,
             'app-quote-input': QuoteInput,
             'app-footer': Footer
         }
     }
 </script>
+<style>
+    .quotes {
+        list-style: none;
+        margin-bottom: 50px;
+        padding-left: 0;
+        font-size: 0;
+        min-height: 240px;
+    }
+</style>

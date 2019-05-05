@@ -1,34 +1,10 @@
 <template>
-    <ul class="quotes">
-        <li class="quote" v-for="(quot, i) in quotes" :key="i" @click="removeQuote(i)">
-            {{ quot }}
-        </li>
-    </ul>
+    <li class="quote">
+        <slot></slot>
+    </li>
 </template>
 
-<script>
-
-    export default {
-        props: {
-            quotes: Array
-        },
-        methods: {
-            removeQuote: function (i) {
-                this.quotes.splice(i, 1);
-            }
-        },
-        created() {
-
-        }
-    }
-</script>
-
 <style>
-    .quotes {
-        margin-bottom: 50px;
-        padding-left: 0;
-        font-size: 0;
-    }
     .quote {
         display: inline-block;
         vertical-align: top;
